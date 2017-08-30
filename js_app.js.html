@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doc: Source: js/app.js</title>
+    <link type="text/css" rel="stylesheet" href="styles/doc.css">
+    <link type="text/css" rel="stylesheet" href="styles/doc-style.css">
+</head>
+<body>
+    <header>
+        <div class="title">
+            nw-skeleton
+        </div>
+        <div class="search">
+            <input type="search" name="search">
+        </div>
+    </header>
+    <div id="menu">
+        <nav><div class="menu-section-title"><a href="index.html">Home</a></div><div class="menu-section-title">Namespaces</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.html">app</a><ul><li class="parent"><div class="menu-arrow"></div>Class<ul><li><a href="app.App.html">App</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="app.html#app/data/appData.js">app/data/appData.js</a></li><li><a href="app.html#app/js/appState.js">app/js/appState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="app.html#.AppData-app">AppData-app</a></li><li><a href="app.html#.appState-app">appState-app</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="components.html">components</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="components.html#app/components/modal/subcomponent-info/componentState.js">app/components/modal/subcomponent-info/componentState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="components.html#.app-main">app-main</a></li><li><a href="components.html#.subcomponent-info">subcomponent-info</a></li><li><a href="components.html#.testModalComponentState">testModalComponentState</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.html">mixins</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="mixins.html#app/js/mixin/appMethods.js">app/js/mixin/appMethods.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="mixins.html#.MixinAppMethods">MixinAppMethods</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Namespace<ul><li><a href="mixins.appMethods.html">appMethods</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.appMethods.html">appMethods</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="mixins.appMethods.html#.addZeros">addZeros</a></li><li><a href="mixins.appMethods.html#.basename">basename</a></li><li><a href="mixins.appMethods.html#.formatCurrency">formatCurrency</a></li><li><a href="mixins.appMethods.html#.formatDate">formatDate</a></li><li><a href="mixins.appMethods.html#.formatDateNormalize">formatDateNormalize</a></li><li><a href="mixins.appMethods.html#.formatDuration">formatDuration</a></li><li><a href="mixins.appMethods.html#.formatDurationCustom">formatDurationCustom</a></li><li><a href="mixins.appMethods.html#.formatTime">formatTime</a></li><li><a href="mixins.appMethods.html#.formatTimeNormalize">formatTimeNormalize</a></li></ul></li></ul></li></ul><div class="menu-section-title">Classes</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.App.html">App</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="app.App.html#finalize">finalize</a></li><li><a href="app.App.html#initialize">initialize</a></li><li><a href="app.App.html#localRequire">localRequire</a></li><li><a href="app.App.html#setMainView">setMainView</a></li><li><a href="app.App.html#shutdown">shutdown</a></li><li><a href="app.App.html#windowBlur">windowBlur</a></li><li><a href="app.App.html#windowFocus">windowFocus</a></li></ul></li></ul></li></ul></nav>
+    </div>
+    <div id="content">
+        <h1>Source: js/app.js</h1>
+        
+
+
+
+    
+
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+
+
+
+
+    
+
+        
+
+<pre class="prettyprint source linenums"><code>/**
+ * @fileOverview App class file
+ * @author Dino Ivankov &lt;dinoivankov@gmail.com>
+ * @version 1.1.0
+ */
+
+const WrapperApp = require('nw-skeleton').App;
+
+var _appWrapper;
+var appState;
+
+/**
+ * App class - main class for nw-skeleton based app instances
+ *
+ * This class has three methods that are important for application life cycle:
+ * &lt;ul>
+ * &lt;li>initialize&lt;/li>
+ * &lt;li>finalize&lt;/li>
+ * &lt;li>shutdown&lt;/li>
+ * &lt;/ul>
+ * All three methods are async, and called from nw-skeleton appWrapper automatically.
+ * &lt;p>[Initialize]{@link app.App#initialize} is called first and it loads application helpers, sets application basic data, and finally loads eventual subFiles from configuration, instantiate their classes and (await) call initialize methods on all classes that contain that method.&lt;/p>
+ * &lt;/p>[Finalize]{@link app.App#finalize} is called once both backend and frontend app have been initialized, and it has complete app structure and appState at its disposal. It will also automatically (await) call 'finalize' method on all sub classes that have it.&lt;/p>
+ * &lt;/p>[Shutdown]{@link app.App#shutdown} is called before application window is closed or unloaded and should perform all necessary cleanup operations, remove any event listeners and free any remaining references left over from application usage. This method will also (await) call 'shutdown' method on any sub classes that have that method.&lt;/p>
+ *
+ * @class
+ * @extends {WrapperApp}
+ * @memberOf app
+ */
+class App extends WrapperApp {
+
+    /**
+     * Creates App instance
+     *
+     * @constructor
+     * @return {App}              Instance of App class
+     */
+    constructor () {
+        super();
+
+        _appWrapper = window.getAppWrapper();
+        appState = _appWrapper.getAppState();
+        this.boundMethods = {
+            windowBlur: null,
+            windowFocus: null
+        };
+    }
+
+    /**
+     * Initializes app and its dependencies
+     *
+     * @async
+     * @return {App} App class instance
+     */
+    async initialize () {
+        let result = await super.initialize();
+        return result;
+    }
+
+    /**
+     * Finalizes app and its subfiles. This method is called once
+     * frontend application is created, so code here has all references that
+     * are available to the application
+     *
+     * @async
+     * @return {boolean} Finalization result
+     */
+    async finalize() {
+        let result = await super.finalize();
+        return result;
+    }
+
+    /**
+     * Shuts down application and all its dependencies, freeing memory,
+     * removing references and preparing for app exit
+     *
+     * @async
+     * @return {boolean} Shutdown result
+     */
+    async shutdown () {
+        let result = await super.shutdown();
+        return result;
+    }
+
+    addEventListeners () {
+        if (!appState.isDebugWindow){
+            _appWrapper.on('window:blur', this.boundMethods.windowBlur);
+            _appWrapper.on('window:focus', this.boundMethods.windowFocus);
+        }
+    }
+
+    removeEventListeners () {
+        if (!appState.isDebugWindow){
+            _appWrapper.removeListener('window:blur', this.boundMethods.windowBlur);
+            _appWrapper.removeListener('window:focus', this.boundMethods.windowFocus);
+        }
+    }
+
+    /**
+     * Local require for loading app modules from appWrapper
+     *
+     * @param  {string} moduleName Name of module to require
+     * @return {Object}            Required module
+     */
+    localRequire (moduleName){
+        return require(moduleName);
+    }
+
+    /**
+     * Handler for menu item that sets subcomponent view
+     *
+     * @param {Object} menuItem Menuitem that triggered the handler
+     * @return {undefined}
+     */
+    setMainView (menuItem){
+        let componentName = menuItem &amp;&amp; menuItem.label ? menuItem.label : false;
+        if (componentName){
+            appState.userData.mainData.currentComponent = componentName;
+        }
+    }
+
+    /**
+     * Handler for window focus event
+     *
+     * @return {undefined}
+     */
+    windowFocus () {
+        if (this.initialized){
+            _appWrapper.asyncMessage({instruction: 'updateMenuItem', data: {type: 'tray', menuItemIndex: '0', menuItemUpdates: {enabled: false}}});
+        }
+    }
+
+    /**
+     * Handler for window blur event
+     *
+     * @return {undefined}
+     */
+    windowBlur () {
+        if (this.initialized){
+            _appWrapper.asyncMessage({instruction: 'updateMenuItem', data: {type: 'tray', menuItemIndex: '0', menuItemUpdates: {enabled: true}}});
+        }
+    }
+
+}
+exports.App = App;
+
+/**
+ * @namespace
+ * @name app
+ * @description app Main application class namespace
+ */
+
+/**
+ * @namespace
+ * @name components
+ * @description components Application Vue components namespace
+ */
+
+/**
+ * @namespace
+ * @name mixins
+ * @description mixins Application Vue mixins namespace
+ */
+
+/**
+ * @namespace
+ * @name mixins.appMethods
+ * @description mixins.appMethods Application Vue global mixin appMethods namespace
+ */</code></pre>
+
+
+    
+
+
+
+    </div>
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a>
+    </footer>
+
+    <script type="text/javascript" src="scripts/doc.js"> </script>
+    <script type="text/javascript">
+/* global prettyPrint */
+prettyPrint();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doc: Class: App</title>
+    <link type="text/css" rel="stylesheet" href="styles/doc.css">
+    <link type="text/css" rel="stylesheet" href="styles/doc-style.css">
+</head>
+<body>
+    <header>
+        <div class="title">
+            nw-skeleton
+        </div>
+        <div class="search">
+            <input type="search" name="search">
+        </div>
+    </header>
+    <div id="menu">
+        <nav><div class="menu-section-title"><a href="index.html">Home</a></div><div class="menu-section-title">Namespaces</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.html">app</a><ul><li class="parent"><div class="menu-arrow"></div>Class<ul><li><a href="app.App.html">App</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="app.html#app/data/appData.js">app/data/appData.js</a></li><li><a href="app.html#app/js/appState.js">app/js/appState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="app.html#.AppData-app">AppData-app</a></li><li><a href="app.html#.appState-app">appState-app</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="components.html">components</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="components.html#app/components/modal/subcomponent-info/componentState.js">app/components/modal/subcomponent-info/componentState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="components.html#.app-main">app-main</a></li><li><a href="components.html#.subcomponent-info">subcomponent-info</a></li><li><a href="components.html#.testModalComponentState">testModalComponentState</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.html">mixins</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="mixins.html#app/js/mixin/appMethods.js">app/js/mixin/appMethods.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="mixins.html#.MixinAppMethods">MixinAppMethods</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Namespace<ul><li><a href="mixins.appMethods.html">appMethods</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.appMethods.html">appMethods</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="mixins.appMethods.html#.addZeros">addZeros</a></li><li><a href="mixins.appMethods.html#.basename">basename</a></li><li><a href="mixins.appMethods.html#.formatCurrency">formatCurrency</a></li><li><a href="mixins.appMethods.html#.formatDate">formatDate</a></li><li><a href="mixins.appMethods.html#.formatDateNormalize">formatDateNormalize</a></li><li><a href="mixins.appMethods.html#.formatDuration">formatDuration</a></li><li><a href="mixins.appMethods.html#.formatDurationCustom">formatDurationCustom</a></li><li><a href="mixins.appMethods.html#.formatTime">formatTime</a></li><li><a href="mixins.appMethods.html#.formatTimeNormalize">formatTimeNormalize</a></li></ul></li></ul></li></ul><div class="menu-section-title">Classes</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.App.html">App</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="app.App.html#finalize">finalize</a></li><li><a href="app.App.html#initialize">initialize</a></li><li><a href="app.App.html#localRequire">localRequire</a></li><li><a href="app.App.html#setMainView">setMainView</a></li><li><a href="app.App.html#shutdown">shutdown</a></li><li><a href="app.App.html#windowBlur">windowBlur</a></li><li><a href="app.App.html#windowFocus">windowFocus</a></li></ul></li></ul></li></ul></nav>
+    </div>
+    <div id="content">
+        <h1>Class: App</h1>
+        
+
+
+
+    
+
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    <div class="container">
+
+        <div class="header">
+            
+
+                <h2>
+                    
+                        <span class="ancestors"><a href="app.html">app</a>.</span>
+                    
+
+                    App
+
+                    
+                </h2>
+
+
+                
+                    <div class="class-description">
+                        App class - main class for nw-skeleton based app instances
+
+This class has three methods that are important for application life cycle:
+<ul>
+<li>initialize</li>
+<li>finalize</li>
+<li>shutdown</li>
+</ul>
+All three methods are async, and called from nw-skeleton appWrapper automatically.
+<p><a href="app.App.html#initialize">Initialize</a> is called first and it loads application helpers, sets application basic data, and finally loads eventual subFiles from configuration, instantiate their classes and (await) call initialize methods on all classes that contain that method.</p>
+</p><a href="app.App.html#finalize">Finalize</a> is called once both backend and frontend app have been initialized, and it has complete app structure and appState at its disposal. It will also automatically (await) call 'finalize' method on all sub classes that have it.</p>
+</p><a href="app.App.html#shutdown">Shutdown</a> is called before application window is closed or unloaded and should perform all necessary cleanup operations, remove any event listeners and free any remaining references left over from application usage. This method will also (await) call 'shutdown' method on any sub classes that have that method.</p>
+                    </div>
+                
+
+
+            
+        </div>
+
+
+        <div class="overview">
+
+
+            
+
+                
+
+
+<article class="doclet" id="App">
+
+    
+        
+        
+    
+
+
+    <h3>App<span class="signature">()</span><span class="return-type"></span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line30">line 30</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Creates App instance
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+
+
+            
+        </div>
+
+
+
+        
+            
+
+
+    <h4>Extends</h4>
+    <div class="extend">
+        <ul>
+            
+                <li>WrapperApp</li>
+            
+        </ul>
+    </div>
+
+
+        
+
+
+        
+
+
+        
+
+
+        
+
+
+        
+
+
+
+
+
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+    
+        <section>
+        <h2>Methods</h2>
+        
+            
+
+
+<article class="doclet" id="finalize">
+
+    
+        
+        
+    
+
+
+    <h3>finalize<span class="signature">()</span><span class="return-type">{boolean}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line68">line 68</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Finalizes app and its subfiles. This method is called once
+frontend application is created, so code here has all references that
+are available to the application
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+            
+
+
+<article class="doclet" id="initialize">
+
+    
+        
+        
+    
+
+
+    <h3>initialize<span class="signature">()</span><span class="return-type">{App}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line55">line 55</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Initializes app and its dependencies
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+            
+
+
+<article class="doclet" id="localRequire">
+
+    
+        
+        
+    
+
+
+    <h3>localRequire<span class="signature">(moduleName)</span><span class="return-type">{Object}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line105">line 105</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+
+
+
+
+<div class="params">
+    <h4>Parameters</h4>
+    <table>
+        <thead>
+            <tr>
+                
+                
+                    <th>Name</th>
+                
+                
+                    <th>Type</th>
+                
+                
+                
+                
+                
+                    <th>Description</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+        
+            
+            
+        
+                
+                
+                <tr>
+                
+                    
+                        <td class="name">moduleName</td>
+                    
+                        
+                    <td class="type">
+                        
+                            
+
+    
+    <span class="param-type">string</span>
+    
+    
+    
+
+                        
+                    </td>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <td class="description">Name of module to require</td>
+                    
+                </tr>
+                
+            
+        </tbody>
+    </table>
+</div>
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Local require for loading app modules from appWrapper
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+            
+
+
+<article class="doclet" id="setMainView">
+
+    
+        
+        
+    
+
+
+    <h3>setMainView<span class="signature">(menuItem)</span><span class="return-type">{undefined}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line115">line 115</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+
+
+
+
+<div class="params">
+    <h4>Parameters</h4>
+    <table>
+        <thead>
+            <tr>
+                
+                
+                    <th>Name</th>
+                
+                
+                    <th>Type</th>
+                
+                
+                
+                
+                
+                    <th>Description</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+        
+            
+            
+        
+                
+                
+                <tr>
+                
+                    
+                        <td class="name">menuItem</td>
+                    
+                        
+                    <td class="type">
+                        
+                            
+
+    
+    <span class="param-type">Object</span>
+    
+    
+    
+
+                        
+                    </td>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <td class="description">Menuitem that triggered the handler</td>
+                    
+                </tr>
+                
+            
+        </tbody>
+    </table>
+</div>
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Handler for menu item that sets subcomponent view
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+            
+
+
+<article class="doclet" id="shutdown">
+
+    
+        
+        
+    
+
+
+    <h3>shutdown<span class="signature">()</span><span class="return-type">{boolean}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line80">line 80</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Shuts down application and all its dependencies, freeing memory,
+removing references and preparing for app exit
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+            
+
+
+<article class="doclet" id="windowBlur">
+
+    
+        
+        
+    
+
+
+    <h3>windowBlur<span class="signature">()</span><span class="return-type">{undefined}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line138">line 138</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Handler for window blur event
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+            
+
+
+<article class="doclet" id="windowFocus">
+
+    
+        
+        
+    
+
+
+    <h3>windowFocus<span class="signature">()</span><span class="return-type">{undefined}</span></h3>
+    
+
+    
+    
+        <div class="location">
+            <a href="#" class="name"><a href="js_app.js.html">js/app.js</a></a>, 
+            <a href="#" class="line"><a href="js_app.js.html#line127">line 127</a></a>
+        </div>
+    
+
+
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+        
+
+<div class="return">
+    <h4>Return</h4>
+    <table>
+    
+    
+            <tr>
+            
+                
+                
+                
+                
+            </tr>
+        
+        
+    </table>
+</div>
+    
+   
+   
+   
+   
+    
+        <div class="description">
+            Handler for window focus event
+        </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+</article>
+        
+        </section>
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    </div>
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a>
+    </footer>
+
+    <script type="text/javascript" src="scripts/doc.js"> </script>
+    <script type="text/javascript">
+/* global prettyPrint */
+prettyPrint();
+    </script>
+</body>
+</html>

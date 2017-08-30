@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doc: Source: js/mixin/appMethods.js</title>
+    <link type="text/css" rel="stylesheet" href="styles/doc.css">
+    <link type="text/css" rel="stylesheet" href="styles/doc-style.css">
+</head>
+<body>
+    <header>
+        <div class="title">
+            nw-skeleton
+        </div>
+        <div class="search">
+            <input type="search" name="search">
+        </div>
+    </header>
+    <div id="menu">
+        <nav><div class="menu-section-title"><a href="index.html">Home</a></div><div class="menu-section-title">Namespaces</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.html">app</a><ul><li class="parent"><div class="menu-arrow"></div>Class<ul><li><a href="app.App.html">App</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="app.html#app/data/appData.js">app/data/appData.js</a></li><li><a href="app.html#app/js/appState.js">app/js/appState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="app.html#.AppData-app">AppData-app</a></li><li><a href="app.html#.appState-app">appState-app</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="components.html">components</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="components.html#app/components/modal/subcomponent-info/componentState.js">app/components/modal/subcomponent-info/componentState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="components.html#.app-main">app-main</a></li><li><a href="components.html#.subcomponent-info">subcomponent-info</a></li><li><a href="components.html#.testModalComponentState">testModalComponentState</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.html">mixins</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="mixins.html#app/js/mixin/appMethods.js">app/js/mixin/appMethods.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="mixins.html#.MixinAppMethods">MixinAppMethods</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Namespace<ul><li><a href="mixins.appMethods.html">appMethods</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.appMethods.html">appMethods</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="mixins.appMethods.html#.addZeros">addZeros</a></li><li><a href="mixins.appMethods.html#.basename">basename</a></li><li><a href="mixins.appMethods.html#.formatCurrency">formatCurrency</a></li><li><a href="mixins.appMethods.html#.formatDate">formatDate</a></li><li><a href="mixins.appMethods.html#.formatDateNormalize">formatDateNormalize</a></li><li><a href="mixins.appMethods.html#.formatDuration">formatDuration</a></li><li><a href="mixins.appMethods.html#.formatDurationCustom">formatDurationCustom</a></li><li><a href="mixins.appMethods.html#.formatTime">formatTime</a></li><li><a href="mixins.appMethods.html#.formatTimeNormalize">formatTimeNormalize</a></li></ul></li></ul></li></ul><div class="menu-section-title">Classes</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.App.html">App</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="app.App.html#finalize">finalize</a></li><li><a href="app.App.html#initialize">initialize</a></li><li><a href="app.App.html#localRequire">localRequire</a></li><li><a href="app.App.html#setMainView">setMainView</a></li><li><a href="app.App.html#shutdown">shutdown</a></li><li><a href="app.App.html#windowBlur">windowBlur</a></li><li><a href="app.App.html#windowFocus">windowFocus</a></li></ul></li></ul></li></ul></nav>
+    </div>
+    <div id="content">
+        <h1>Source: js/mixin/appMethods.js</h1>
+        
+
+
+
+    
+
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+
+
+
+
+    
+
+        
+
+<pre class="prettyprint source linenums"><code>/**
+ * @fileOverview App class file
+ * @author Dino Ivankov &lt;dinoivankov@gmail.com>
+ * @version 1.1.0
+ * @memberOf mixins
+ */
+
+const path = require('path');
+
+var _appWrapper = window.getAppWrapper();
+// var appState = _appWrapper.getAppState();
+
+/**
+ * App methods mixin
+ *
+ * Contains userful methods shared by all vue components
+ *
+ * @memberOf mixins
+ * @name MixinAppMethods
+ * @type {Object}
+ * @property {Object} methods Object with mixin methods
+ */
+var MixinAppMethods  = {
+    methods: {
+        /**
+         * Formats currency based on current language locale
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Number} price Numeric price
+         * @return {string}       Formatted currency value
+         */
+        formatCurrency: function (price) {
+            return _appWrapper.getHelper('format').formatCurrency(price);
+        },
+
+        /**
+         * Formats duration to human-readable format
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Number}  duration        Duration in milliseconds
+         * @param  {Boolean} omitEmpty       Flag to indicate whether to omit empty values
+         * @param  {Boolean} omitZeros       Flag to indicate whether to omit zeros in one-digit values
+         * @param  {(Boolean|Number)}   roundDecimals   Toggle (and set decimals) for value rounding (seconds only)
+         * @param  {Boolean} secondFractions Flag to indicate whether to display second fractions
+         * @return {string}                  Formatted duration
+         */
+        formatDuration: function (duration, omitEmpty, omitZeros, roundDecimals, secondFractions) {
+            return _appWrapper.getHelper('format').formatDuration(duration, omitEmpty, omitZeros, roundDecimals, secondFractions);
+        },
+
+        /**
+         * Formats custom duration based on passed format argument
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Number} time        Duration in milliseconds
+         * @param  {string} format      Format string
+         * @param  {Boolean} returnObj  Flag to indicate whether to return object or string
+         * @return {(string|Object)}    Formatted duration string or object with duration members
+         */
+        formatDurationCustom: function (time, format, returnObj) {
+            return _appWrapper.getHelper('format').formatDurationCustom(time, format, returnObj);
+        },
+
+        /**
+         * Formats date based on options
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Date}       date            Date value to format
+         * @param  {Object}     options         Date format options
+         * @param  {Boolean}    includeTime     Flag to indicate whether to include time
+         * @return {string}                     Formatted date string
+         */
+        formatDate: function (date, options, includeTime) {
+            return _appWrapper.getHelper('format').formatDate(date, options, includeTime);
+        },
+
+        /**
+         * Formats time based on options
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Date}       date            Date value to format
+         * @param  {Object}     options         Date format options
+         * @param  {Boolean}    includeDate     Flag to indicate whether to include date
+         * @return {string}                     Formatted time string
+         */
+        formatTime: function (date, options, includeDate) {
+            return _appWrapper.getHelper('format').formatTime(date, options, includeDate);
+        },
+
+        /**
+         * Format date normalized (Y-m-d H:i:s format)
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Date}       date            Date value to format
+         * @param  {Object}     options         Date format options
+         * @param  {Boolean}    includeTime     Flag to indicate whether to include time
+         * @param  {Boolean}    omitSeconds     Flag to indicate whether to omit seconds
+         * @return {string}                     Formatted date string
+         */
+        formatDateNormalize: function (date, options, includeTime, omitSeconds) {
+            return _appWrapper.getHelper('format').formatDateNormalize(date, options, includeTime, omitSeconds);
+        },
+
+        /**
+         * Format time normalized (Y-m-d H:i:s format)
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {Date}       date            Date value to format
+         * @param  {Object}     options         Date format options
+         * @param  {Boolean}    includeDate     Flag to indicate whether to include date
+         * @param  {Boolean}    omitSeconds     Flag to indicate whether to omit seconds
+         * @return {string}                     Formatted time string
+         */
+        formatTimeNormalize: function (date, options, includeDate, omitSeconds) {
+            return _appWrapper.getHelper('format').formatTimeNormalize(date, options, includeDate, omitSeconds);
+        },
+
+        /**
+         * Adds zeros until value length is equal to maxLength
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param {mixed}  value        Starting value
+         * @param {string} maxLength    Maximum return value string length
+         * @return {string}             Value with added zeros
+         */
+        addZeros: function (value, maxLength) {
+            return _appWrapper.getHelper('format').addZeros(value, maxLength);
+        },
+
+        /**
+         * Returns base name of the file
+         *
+         * @method
+         * @memberOf mixins.appMethods
+         * @param  {string} file File path
+         * @return {string}      FIle base name
+         */
+        basename: function(file){
+            return path.basename(file);
+        }
+    }
+};
+exports.mixin = MixinAppMethods;</code></pre>
+
+
+    
+
+
+
+    </div>
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a>
+    </footer>
+
+    <script type="text/javascript" src="scripts/doc.js"> </script>
+    <script type="text/javascript">
+/* global prettyPrint */
+prettyPrint();
+    </script>
+</body>
+</html>

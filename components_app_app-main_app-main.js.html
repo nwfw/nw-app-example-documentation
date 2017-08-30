@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doc: Source: components/app/app-main/app-main.js</title>
+    <link type="text/css" rel="stylesheet" href="styles/doc.css">
+    <link type="text/css" rel="stylesheet" href="styles/doc-style.css">
+</head>
+<body>
+    <header>
+        <div class="title">
+            nw-skeleton
+        </div>
+        <div class="search">
+            <input type="search" name="search">
+        </div>
+    </header>
+    <div id="menu">
+        <nav><div class="menu-section-title"><a href="index.html">Home</a></div><div class="menu-section-title">Namespaces</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.html">app</a><ul><li class="parent"><div class="menu-arrow"></div>Class<ul><li><a href="app.App.html">App</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="app.html#app/data/appData.js">app/data/appData.js</a></li><li><a href="app.html#app/js/appState.js">app/js/appState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="app.html#.AppData-app">AppData-app</a></li><li><a href="app.html#.appState-app">appState-app</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="components.html">components</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="components.html#app/components/modal/subcomponent-info/componentState.js">app/components/modal/subcomponent-info/componentState.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="components.html#.app-main">app-main</a></li><li><a href="components.html#.subcomponent-info">subcomponent-info</a></li><li><a href="components.html#.testModalComponentState">testModalComponentState</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.html">mixins</a><ul><li class="parent"><div class="menu-arrow"></div>File<ul><li><a href="mixins.html#app/js/mixin/appMethods.js">app/js/mixin/appMethods.js</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Member<ul><li><a href="mixins.html#.MixinAppMethods">MixinAppMethods</a></li></ul></li><li class="parent"><div class="menu-arrow"></div>Namespace<ul><li><a href="mixins.appMethods.html">appMethods</a></li></ul></li></ul></li><li class="parent"><div class="menu-arrow"></div><a href="mixins.appMethods.html">appMethods</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="mixins.appMethods.html#.addZeros">addZeros</a></li><li><a href="mixins.appMethods.html#.basename">basename</a></li><li><a href="mixins.appMethods.html#.formatCurrency">formatCurrency</a></li><li><a href="mixins.appMethods.html#.formatDate">formatDate</a></li><li><a href="mixins.appMethods.html#.formatDateNormalize">formatDateNormalize</a></li><li><a href="mixins.appMethods.html#.formatDuration">formatDuration</a></li><li><a href="mixins.appMethods.html#.formatDurationCustom">formatDurationCustom</a></li><li><a href="mixins.appMethods.html#.formatTime">formatTime</a></li><li><a href="mixins.appMethods.html#.formatTimeNormalize">formatTimeNormalize</a></li></ul></li></ul></li></ul><div class="menu-section-title">Classes</div><ul><li class="parent"><div class="menu-arrow"></div><a href="app.App.html">App</a><ul><li class="parent"><div class="menu-arrow"></div>Function<ul><li><a href="app.App.html#finalize">finalize</a></li><li><a href="app.App.html#initialize">initialize</a></li><li><a href="app.App.html#localRequire">localRequire</a></li><li><a href="app.App.html#setMainView">setMainView</a></li><li><a href="app.App.html#shutdown">shutdown</a></li><li><a href="app.App.html#windowBlur">windowBlur</a></li><li><a href="app.App.html#windowFocus">windowFocus</a></li></ul></li></ul></li></ul></nav>
+    </div>
+    <div id="content">
+        <h1>Source: components/app/app-main/app-main.js</h1>
+        
+
+
+
+    
+
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+
+
+
+
+
+    
+
+        
+
+<pre class="prettyprint source linenums"><code>/**
+ * @fileOverview app-main component file
+ * @author Dino Ivankov &lt;dinoivankov@gmail.com>
+ * @version 1.2.1
+ */
+
+const _ = require('lodash');
+var _appWrapper = window.getAppWrapper();
+var appState = _appWrapper.getAppState();
+
+/**
+ * App main component
+ *
+ * @name app-main
+ * @memberOf components
+ * @property {string}   name        Name of the component
+ * @property {string}   template    Component template contents
+ * @property {string[]} props       Component properties
+ * @property {Function} data        Data function
+ * @property {Object}   methods     Component methods
+ * @property {Object}   watch       Component watchers
+ * @property {Object}   computed    Computed properties
+ * @property {Object}   components  Child components
+ */
+exports.component = {
+    name: 'app-main',
+    template: '',
+    props: ['state'],
+    data: function () {
+        return appState.userData.mainData;
+    },
+    beforeCreate: async function(){
+        if (!appState.userData){
+            appState.userData = {};
+        }
+        if (!appState.userData.mainData){
+            appState.userData.mainData = {};
+        }
+        _.defaultsDeep(appState.userData.mainData, appState.appData.mainData);
+    },
+    mounted: function(){
+        this.saveUserData();
+        this.$el.querySelector('select').focus();
+    },
+    updated: function(){
+        this.$nextTick(() => {
+            this.saveUserData();
+        });
+    },
+    methods: {
+        showInfo: function(){
+            let modalHelper = _appWrapper.getHelper('modal');
+            let modalOptions = {
+                title: 'Sub components info',
+                confirmButtonText: _appWrapper.appTranslations.translate('Close'),
+                showCancelButton: false
+            };
+            modalHelper.openModal('subcomponentInfoModal', modalOptions);
+        },
+        resetAll: function(){
+            this.currentComponent = null;
+        },
+        saveUserData: async function(noNotification) {
+            let userDataHelper = _appWrapper.getHelper('userData');
+            appState.userData.mainData = _.defaultsDeep(this.$data, appState.appData.mainData);
+            let saved = await userDataHelper.saveUserData(appState.userData);
+            if (saved &amp;&amp; !noNotification){
+                // _appWrapper.addUserMessage('User data saved.', 'info', []);
+            }
+        },
+    },
+    watch: {},
+    computed: {
+        appState: function(){
+            return appState;
+        }
+    },
+    components: {}
+};</code></pre>
+
+
+    
+
+
+
+    </div>
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a>
+    </footer>
+
+    <script type="text/javascript" src="scripts/doc.js"> </script>
+    <script type="text/javascript">
+/* global prettyPrint */
+prettyPrint();
+    </script>
+</body>
+</html>
